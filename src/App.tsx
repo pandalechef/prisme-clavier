@@ -20,17 +20,17 @@ class App extends React.Component<PropsInterface, StateInterface> {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Test clavier</h1>
         </header>
+        <br />
+        <ClavierPerso />
+        <br />
+        <br />
+        <br />
         <div>
           <div className="App-intro">Clavier simple Html5</div>
         </div>
-
         <div>
           <input type="number" />
         </div>
-        <br />
-        <br />
-        <br />
-        <ClavierPerso />
       </div>
     );
   }

@@ -16,7 +16,13 @@ export default class ClavierPerso extends React.Component<
     this.state = { input: "" };
   }
 
-  onChange(event?: string | Event, keyboard?: Element, el?: Element) {
+  componentDidMount() {
+    document.getElementsByName("keyboard")[0].setAttribute("readonly", "true");
+  }
+
+  onInputChange(event?: string | Event, keyboard?: Element, el?: Element) {
+    console.log("event", event);
+    console.log("el", el);
     console.log("keyboard", keyboard);
   }
 
@@ -34,22 +40,24 @@ export default class ClavierPerso extends React.Component<
               "-90% -80% -70% -60%",
               "-50% -40% -35% -30%",
               "-25% -20% -15% -10%",
-              "{meta1}"
+              "{normal}"
             ],
-            normal: ["7 8 9", "4 5 6", "1 2 3", "0 . {meta1}"]
+            normal: ["7 8 9", "4 5 6", "1 2 3", "0 . -", "{meta1} {b}"]
           },
           display: {
-            meta1: "%"
+            meta1: "%",
+            b: "<",
+            normal: "123"
           },
           initialFocus: true,
           layout: "custom",
           stickyShift: false,
           type: "input",
-          updateOnChange: true,
+          updateOnChange: false,
           usePreview: false,
           useWheel: false
         }}
-        onChange={this.onChange}
+        onChange={this.onInputChange}
       />
     );
   }
