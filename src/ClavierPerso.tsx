@@ -56,7 +56,10 @@ export default class ClavierPerso extends React.Component<
           Number(this.state.prix) * (1 - Number(pourcentReduction) / 100);
         const prixArrondi = Number.parseFloat(prixMaj.toString()).toFixed(2);
         this.setState({ prix: prixArrondi, input: prixArrondi });
-      } else if (this.state.input === this.state.prixInitial) {
+      } else if (
+        this.state.input === this.state.prixInitial &&
+        nouveauPrix !== this.state.input
+      ) {
         console.log("remise à 0");
         this.setState({
           prix: nouveauPrix.replace(this.state.prix, ""),
