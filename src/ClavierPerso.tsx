@@ -9,7 +9,6 @@ interface PropsInterface {
 interface StateInterface {
   prixInitial: string;
   input: string;
-  prix: string;
 }
 export default class ClavierPerso extends React.Component<
   PropsInterface,
@@ -20,8 +19,7 @@ export default class ClavierPerso extends React.Component<
     super(props);
     this.state = {
       input: this.props.initialValue,
-      prixInitial: this.props.initialValue,
-      prix: this.props.initialValue
+      prixInitial: this.props.initialValue
     };
     this.onInputChange = this.onInputChange.bind(this);
     this.beforeClose = this.beforeClose.bind(this);
@@ -43,33 +41,21 @@ export default class ClavierPerso extends React.Component<
     keyboard?: Element,
     el?: Element
   ) {
-    console.log("Nouveau Prix: ", nouveauPrix);
-    console.log("prix initial: ", this.state.prixInitial);
-
     if (typeof nouveauPrix === "string") {
       if (nouveauPrix.includes("%")) {
         const pourcentReduction = nouveauPrix
-          .replace(this.state.prix, "")
+          .replace(this.state.input, "")
           .replace("%", "")
           .replace("-", "");
         const prixMaj =
-          Number(this.state.prix) * (1 - Number(pourcentReduction) / 100);
+          Number(this.state.input) * (1 - Number(pourcentReduction) / 100);
         const prixArrondi = Number.parseFloat(prixMaj.toString()).toFixed(2);
-        this.setState({ prix: prixArrondi, input: prixArrondi });
-      } else if (
-        this.state.input === this.state.prixInitial &&
-        nouveauPrix !== this.state.input
-      ) {
-        console.log("remise à 0");
-        this.setState({
-          prix: nouveauPrix.replace(this.state.prix, ""),
-          input: nouveauPrix.replace(this.state.prix, "")
-        });
+        this.setState({ input: prixArrondi.replace(".00", "") });
       } else {
-        this.setState({ prix: nouveauPrix, input: nouveauPrix });
+        this.setState({ input: nouveauPrix });
       }
     }
-    this.keyboard!.setState({ value: this.state.prix });
+    this.keyboard!.setState({ value: this.state.input });
   }
 
   public render() {
