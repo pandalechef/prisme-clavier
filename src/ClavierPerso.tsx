@@ -16,14 +16,24 @@ export default class ClavierPerso extends React.Component<
     this.state = { input: "" };
   }
 
-  componentDidMount() {
-    document.getElementsByName("keyboard")[0].setAttribute("readonly", "true");
+  beforeVisible(event: string | Event) {
+    // tslint:disable-next-line:no-string-literal
+    console.log("event ", event["currentTarget"]["readOnly"]);
+    document.getElementsByName("keyboard")[0].setAttribute("readOnly", "true");
+    // tslint:disable-next-line:no-string-literal
+    console.log("event ", event["currentTarget"]["readOnly"]);
   }
 
-  onInputChange(event?: string | Event, keyboard?: Element, el?: Element) {
+  beforeClose(event: string | Event) {
+    // tslint:disable-next-line:no-string-literal
+    console.log("event ", event["currentTarget"]["readOnly"]);
+    document.getElementsByName("keyboard")[0].removeAttribute("readOnly");
+    // tslint:disable-next-line:no-string-literal
+    console.log("event ", event["currentTarget"]["readOnly"]);
+  }
+
+  onInputChange(event?: string | Event) {
     console.log("event", event);
-    console.log("el", el);
-    console.log("keyboard", keyboard);
   }
 
   public render() {
@@ -32,6 +42,7 @@ export default class ClavierPerso extends React.Component<
         value={this.state.input}
         name="keyboard"
         options={{
+          openOn: "click",
           alwaysOpen: false,
           appendLocally: true,
           color: "light",
@@ -55,7 +66,10 @@ export default class ClavierPerso extends React.Component<
           type: "input",
           updateOnChange: false,
           usePreview: false,
-          useWheel: false
+          useWheel: false,
+          beforeVisible: this.beforeVisible,
+          beforeClose: this.beforeClose,
+          userClosed: false
         }}
         onChange={this.onInputChange}
       />
