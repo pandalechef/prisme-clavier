@@ -24,7 +24,6 @@ class App extends React.Component<PropsInterface, StateInterface> {
         <ClavierPerso />
         <br />
         <br />
-        <br />
         <div>
           <div className="App-intro">Clavier simple Html5</div>
         </div>

@@ -17,19 +17,11 @@ export default class ClavierPerso extends React.Component<
   }
 
   beforeVisible(event: string | Event) {
-    // tslint:disable-next-line:no-string-literal
-    console.log("event ", event["currentTarget"]["readOnly"]);
     document.getElementsByName("keyboard")[0].setAttribute("readOnly", "true");
-    // tslint:disable-next-line:no-string-literal
-    console.log("event ", event["currentTarget"]["readOnly"]);
   }
 
   beforeClose(event: string | Event) {
-    // tslint:disable-next-line:no-string-literal
-    console.log("event ", event["currentTarget"]["readOnly"]);
     document.getElementsByName("keyboard")[0].removeAttribute("readOnly");
-    // tslint:disable-next-line:no-string-literal
-    console.log("event ", event["currentTarget"]["readOnly"]);
   }
 
   onInputChange(event?: string | Event) {
@@ -42,7 +34,6 @@ export default class ClavierPerso extends React.Component<
         value={this.state.input}
         name="keyboard"
         options={{
-          openOn: "click",
           alwaysOpen: false,
           appendLocally: true,
           color: "light",
