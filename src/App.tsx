@@ -21,7 +21,7 @@ class App extends React.Component<PropsInterface, StateInterface> {
           <h1 className="App-title">Test clavier</h1>
         </header>
         <br />
-        <ClavierPerso initialValue="2.31" />
+        <ClavierPerso valeurInitiale="2.31" />
         <br />
         <br />
         <div>

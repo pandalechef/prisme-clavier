@@ -3,12 +3,12 @@ import Keyboard from "react-virtual-keyboard";
 
 // tslint:disable-next-line:no-empty-interface
 interface PropsInterface {
-  initialValue: string;
+  valeurInitiale: string;
 }
 
 interface StateInterface {
-  prixInitial: string;
-  input: string;
+  valeurCourante: string;
+  mettreAZero: boolean;
 }
 export default class ClavierPerso extends React.Component<
   PropsInterface,
@@ -18,21 +18,24 @@ export default class ClavierPerso extends React.Component<
   constructor(props: PropsInterface) {
     super(props);
     this.state = {
-      input: this.props.initialValue,
-      prixInitial: this.props.initialValue
+      valeurCourante: this.props.valeurInitiale,
+      mettreAZero: false
     };
     this.onInputChange = this.onInputChange.bind(this);
     this.beforeClose = this.beforeClose.bind(this);
+    this.beforeVisible = this.beforeVisible.bind(this);
   }
 
   beforeVisible(event: string | Event) {
     document.getElementsByName("keyboard")[0].setAttribute("readOnly", "true");
+    this.setState({ mettreAZero: true });
   }
 
   beforeClose(event: string | Event) {
     document.getElementsByName("keyboard")[0].removeAttribute("readOnly");
     if (this.keyboard!.state.value === "") {
-      this.keyboard!.setState({ value: this.state.prixInitial });
+      this.keyboard!.setState({ value: this.props.valeurInitiale });
+      this.setState({ valeurCourante: this.props.valeurInitiale });
     }
   }
 
@@ -42,28 +45,38 @@ export default class ClavierPerso extends React.Component<
     el?: Element
   ) {
     if (typeof nouveauPrix === "string") {
-      if (nouveauPrix.includes("%")) {
-        const pourcentReduction = nouveauPrix
-          .replace(this.state.input, "")
-          .replace("%", "")
-          .replace("-", "");
-        const prixMaj =
-          Number(this.state.input) * (1 - Number(pourcentReduction) / 100);
-        const prixArrondi = Number.parseFloat(prixMaj.toString()).toFixed(2);
-        this.setState({ input: prixArrondi.replace(".00", "") });
+      if (this.state.mettreAZero) {
+        nouveauPrix = nouveauPrix.replace(this.state.valeurCourante, "");
+        this.setState({ mettreAZero: false });
+      }
+      if (this.demandeReduction(nouveauPrix)) {
+        this.appliquerReduction(nouveauPrix);
       } else {
-        this.setState({ input: nouveauPrix });
+        this.setState({ valeurCourante: nouveauPrix });
       }
     }
-    this.keyboard!.setState({ value: this.state.input });
+    this.keyboard!.setState({ value: this.state.valeurCourante });
+  }
+
+  public appliquerReduction(nouveauPrix: string) {
+    const pourcentReduction = nouveauPrix
+      .replace(this.state.valeurCourante, "")
+      .replace("%", "")
+      .replace("-", "");
+    const prixMaj =
+      Number(this.state.valeurCourante) * (1 - Number(pourcentReduction) / 100);
+    const prixArrondi = Number.parseFloat(prixMaj.toString()).toFixed(2);
+    this.setState({ valeurCourante: prixArrondi.replace(".00", "") });
+  }
+
+  public demandeReduction(nouveauPrix: string) {
+    return nouveauPrix.includes("%");
   }
 
   public render() {
-    console.log("this.state.input ", this.state.input);
-
     return (
       <Keyboard
-        value={this.state.input}
+        value={this.state.valeurCourante}
         name="keyboard"
         options={{
           alwaysOpen: false,
