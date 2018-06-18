@@ -16,7 +16,7 @@ export default class ClavierHtml5 extends React.Component<
     this.state = { valeurCourante: this.props.valeurInitiale };
   }
   onFocus(e: React.FormEvent<HTMLInputElement>) {
-    e.currentTarget.setSelectionRange(0, e.currentTarget.value.length);
+    e.currentTarget.select();
   }
   render() {
     return (
