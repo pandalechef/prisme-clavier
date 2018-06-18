@@ -3,6 +3,7 @@ import "./App.css";
 
 import logo from "./logo.svg";
 import ClavierPerso from "./ClavierPerso";
+import ClavierHtml5 from "./ClavierHtml5";
 
 interface PropsInterface {}
 
@@ -28,7 +29,7 @@ class App extends React.Component<PropsInterface, StateInterface> {
           <div className="App-intro">Clavier simple Html5</div>
         </div>
         <div>
-          <input type="number" />
+          <ClavierHtml5 valeurInitiale="2.31" />
         </div>
       </div>
     );

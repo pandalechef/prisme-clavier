@@ -44,7 +44,10 @@ export default class ClavierPerso extends React.Component<
     keyboard?: Element,
     el?: Element
   ) {
-    if (typeof nouveauPrix === "string") {
+    if (
+      typeof nouveauPrix === "string" &&
+      nouveauPrix !== this.state.valeurCourante
+    ) {
       if (this.state.mettreAZero) {
         nouveauPrix = nouveauPrix.replace(this.state.valeurCourante, "");
         this.setState({ mettreAZero: false });
